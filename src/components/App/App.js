@@ -8,13 +8,16 @@ import initialState from "../../initialState";
 class App extends Component {
   maxId = 10;
 
-  state = initialState;
+  state = {
+    tasks: initialState.tasks,
+    filter: 'all'
+  };
 
   onCompletedItem = (id) => {
-    this.setState((state) => {
+    this.setState(({tasks}) => {
       return {
-        ...state,
-        tasks: state.tasks.map((item) => {
+        ...tasks,
+        tasks: tasks.map((item) => {
           if (item.id === id) {
             return {
               ...item,
@@ -27,6 +30,19 @@ class App extends Component {
     });
   };
 
+  onFilterItem = (items, filter) => {
+    switch(filter){
+      case 'all':
+        return items;
+      case 'active': 
+        return items.filter(item => !item.completed);
+      case 'completed': 
+        return items.filter(item => item.completed);
+      default: 
+        return items;
+    }
+  }
+
   onDeleteItem = (id) => {
     this.setState(({ tasks }) => {
       const index = tasks.findIndex((el) => el.id === id);
@@ -37,10 +53,10 @@ class App extends Component {
   };
 
   onEditItem = (id) => {
-    this.setState((state) => {
+    this.setState(({tasks}) => {
       return {
-        ...state,
-        tasks: state.tasks.map((item) => {
+        ...tasks,
+        tasks: tasks.map((item) => {
           if (item.id === id) {
             return {
               ...item,
@@ -51,6 +67,10 @@ class App extends Component {
         }),
       };
     });
+  };
+
+  onFilterChange = (filter) => {
+    this.setState({filter});
   };
 
   onAddItem = (label) => {
@@ -67,24 +87,37 @@ class App extends Component {
     });
   };
 
+  onClearCompleted = () => {
+    this.setState(({tasks}) => {
+      return {
+        tasks: tasks.filter(item => !item.completed)
+      };
+    });
+  };
+
   render() {
-    const { tasks } = this.state;
+    const { tasks, filter } = this.state;
 
     const doneCount = tasks.filter((el) => el.completed).length;
 
     const todoCount = tasks.length - doneCount;
+
+    const visibleItem = this.onFilterItem(tasks, filter);
 
     return (
       <section className="todoapp">
         <NewTaskForm onAddItem={this.onAddItem} />
         <section className="main">
           <TaskList
-            items={tasks}
+            items={visibleItem}
             onCompletedItem={this.onCompletedItem}
             onDeleteItem={this.onDeleteItem}
             onEditItem={this.onEditItem}
           />
-          <Footer todoCount={todoCount} />
+          <Footer todoCount={todoCount}
+                  onFilterChange={this.onFilterChange}
+                  onClearCompleted={this.onClearCompleted}
+                  filter={filter} />
         </section>
       </section>
     );
