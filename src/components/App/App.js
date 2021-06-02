@@ -56,21 +56,22 @@ class App extends Component {
     this.setState(({tasks}) => {
       return {
         ...tasks,
-        tasks: tasks.map((item) => {
-          if (item.id === id) {
-            return {
-              ...item,
-              edit: !item.edit,
-            };
-          }
-          return item;
-        }),
+        tasks: tasks.map((task) => (task.id === id ? { ...task, edit: !task.edit } : task)),
       };
     });
   };
 
   onFilterChange = (filter) => {
     this.setState({filter});
+  };
+
+  onLabelChange = (id, label) => {
+    this.setState(({tasks}) => {
+      return {
+        ...tasks,
+        tasks: tasks.map((task) => (task.id === id ? { ...task, label } : task))
+      };
+    });
   };
 
   onAddItem = (label) => {
@@ -112,6 +113,7 @@ class App extends Component {
             items={visibleItem}
             onCompletedItem={this.onCompletedItem}
             onDeleteItem={this.onDeleteItem}
+            onLabelChange={this.onLabelChange}
             onEditItem={this.onEditItem}
           />
           <Footer todoCount={todoCount}

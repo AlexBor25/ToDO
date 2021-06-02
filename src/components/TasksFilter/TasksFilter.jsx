@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from "prop-types";
+
 import './tasksFilter.css';
 
 export default class TasksFilter extends React.Component {
@@ -7,9 +9,7 @@ export default class TasksFilter extends React.Component {
     {name: 'all', label: 'All'},
     {name: 'active', label: 'Active'},
     {name: 'completed', label: 'Completed'},
-  ]
-
-  classNames = 'selected';
+  ];
 
   render() {
 
@@ -32,4 +32,14 @@ export default class TasksFilter extends React.Component {
       </ul>
   );
   };
+};
+
+TasksFilter.defaultProps = {
+  filter: '',
+  onFilterChange: () => {}
+};
+
+TasksFilter.propTypes = {
+  filter: PropTypes.string,
+  onFilterChange: PropTypes.func
 };

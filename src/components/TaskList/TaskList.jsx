@@ -1,9 +1,11 @@
+import React from "react";
+import PropTypes from "prop-types";
+
 import Task from "../Task/Task";
 
 import './taskList.css';
-import React from "react";
 
-const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem}) => {
+const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChange}) => {
 
   return (
       <ul className="todo-list">
@@ -15,7 +17,7 @@ const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem}) => {
             classNames += ' completed';
           }
           if(edit){
-            classNames += ' edit';
+            classNames += ' editing';
           }
 
           return <li className={classNames} key={id}><Task
@@ -23,10 +25,27 @@ const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem}) => {
             id={id}
             label={label}
             onDeleteItem={onDeleteItem}
+            onLabelChange={onLabelChange}
             onEditItem={onEditItem} /></li>
         })}
       </ul>
   );
-}
+};
+
+TaskList.defaultProps = {
+  tasks: [],
+  onCompletedItem: () => {},
+  onDeleteItem: () => {},
+  onEditItem: () => {},
+  onLabelChange: () => {},
+};
+
+TaskList.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.object),
+  onCompletedItem: PropTypes.func,
+  onDeleteItem: PropTypes.func,
+  onEditItem: PropTypes.func,
+  onLabelChange: PropTypes.func
+};
 
 export default TaskList;
