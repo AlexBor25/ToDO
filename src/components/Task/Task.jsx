@@ -25,8 +25,8 @@ const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, 
         return () => clearInterval(timerId);
     }, [refresh]);
 
-    const changeValue = (e) => {
-        setValue(e.target.value);
+    const changeValue = (event) => {
+        setValue(event.target.value);
     };
 
     const changeLabel = () => {
@@ -34,9 +34,9 @@ const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, 
         onLabelChange(id, value);
     };
 
-    const blurInp = (e) => {
-        if(e.key === 'Enter') {
-            e.target.blur();
+    const blurInp = (event) => {
+        if(event.key === 'Enter') {
+            event.target.blur();
         }
     };
 
@@ -54,7 +54,7 @@ const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, 
             <button type='button' onClick={() => onDeleteItem(id)} className="icon icon-destroy"/>
         </div>
         <input type="text" className="edit"
-               onChange={(e) => changeValue(e)}
+               onChange={(event) => changeValue(event)}
                onKeyDown={blurInp}
                onBlur={changeLabel}
                value={value} />

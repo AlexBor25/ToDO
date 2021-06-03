@@ -9,14 +9,14 @@ export default class NewTaskForm extends React.Component {
         label: ''
     }
 
-    onLabelChange = (e) => {
+    onLabelChange = (event) => {
         this.setState({
-            label: e.target.value
+            label: event.target.value
         });
     };
 
-    onSubmit = (e) => {
-        e.preventDefault();
+    onSubmit = (event) => {
+        event.preventDefault();
         // eslint-disable-next-line react/destructuring-assignment
         this.props.onAddItem(this.state.label);
         this.setState({
