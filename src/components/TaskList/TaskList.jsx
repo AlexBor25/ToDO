@@ -9,7 +9,7 @@ const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChan
 
   return (
       <ul className="todo-list">
-        {items.map(({completed, edit, id, label}) => {
+        {items.map(({completed, edit, id, label,  date}) => {
 
           let classNames = '';
 
@@ -23,6 +23,7 @@ const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChan
           return <li className={classNames} key={id}><Task
             onCompletedItem={onCompletedItem}
             id={id}
+            date={date}
             label={label}
             onDeleteItem={onDeleteItem}
             onLabelChange={onLabelChange}

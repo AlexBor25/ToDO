@@ -80,6 +80,7 @@ class App extends Component {
       completed: false,
       edit: false,
       id: this.maxId++,
+      date: new Date(),
     };
     this.setState(({ tasks }) => {
       return {

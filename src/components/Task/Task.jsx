@@ -5,9 +5,25 @@ import { formatDistanceToNow } from 'date-fns';
 
 import './task.css';
 
-const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, onLabelChange}) => {
+const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, onLabelChange,  date}) => {
 
     const [value, setValue] = React.useState(label);
+
+    const [formateDate, setFormateDate] = React.useState(
+      formatDistanceToNow(date, { addSuffix: true, includeSeconds: true })
+    );
+
+    const refresh = React.useCallback(() => {
+        const newFormateDate = formatDistanceToNow(date, { addSuffix: true, includeSeconds: true });
+        if (newFormateDate !== formateDate) {
+            setFormateDate(newFormateDate);
+        }
+    }, [date, formateDate]);
+
+    React.useEffect(() => {
+        const timerId = setInterval(refresh, 1000);
+        return () => clearInterval(timerId);
+    }, [refresh]);
 
     const changeValue = (e) => {
         setValue(e.target.value);
@@ -30,7 +46,7 @@ const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, 
             <input className="toggle" onClick={() => onCompletedItem(id)} type="checkbox" />
             <label>
             <span className="description">{label}</span>
-            <span className="created">created 5 minutes ago</span>
+            <span className="created">{formateDate}</span>
             </label>
             <button onClick={() => onEditItem(id)} className="icon icon-edit"/>
             <button onClick={() => onDeleteItem(id)} className="icon icon-destroy"/>
