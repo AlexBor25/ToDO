@@ -17,6 +17,7 @@ export default class NewTaskForm extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        // eslint-disable-next-line react/destructuring-assignment
         this.props.onAddItem(this.state.label);
         this.setState({
             label: ''
@@ -30,8 +31,10 @@ export default class NewTaskForm extends React.Component {
                 <input
                 className="new-todo"
                 onChange={this.onLabelChange}
+                /* eslint-disable-next-line react/destructuring-assignment */
                 value={this.state.label}
                 placeholder="What needs to be done?"
+                /* eslint-disable-next-line jsx-a11y/no-autofocus */
                 autoFocus
                 />
           </form>

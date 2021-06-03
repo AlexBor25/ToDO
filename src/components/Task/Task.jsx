@@ -48,8 +48,10 @@ const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, 
             <span className="description">{label}</span>
             <span className="created">{formateDate}</span>
             </label>
-            <button onClick={() => onEditItem(id)} className="icon icon-edit"/>
-            <button onClick={() => onDeleteItem(id)} className="icon icon-destroy"/>
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+            <button type='button' onClick={() => onEditItem(id)} className="icon icon-edit"/>
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+            <button type='button' onClick={() => onDeleteItem(id)} className="icon icon-destroy"/>
         </div>
         <input type="text" className="edit"
                onChange={(e) => changeValue(e)}
@@ -67,6 +69,7 @@ Task.defaultProps = {
     onDeleteItem: () => {},
     onEditItem: () => {},
     onLabelChange: () => {},
+    date: new Date()
 };
 
 Task.propTypes = {
@@ -75,7 +78,8 @@ Task.propTypes = {
     onCompletedItem: PropTypes.func,
     onDeleteItem: PropTypes.func,
     onEditItem: PropTypes.func,
-    onLabelChange: PropTypes.func
+    onLabelChange: PropTypes.func,
+    date: PropTypes.instanceOf(Date),
 };
 
 export default Task;

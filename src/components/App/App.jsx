@@ -1,8 +1,8 @@
 import "./App.css";
+import React, { Component } from "react";
 import Footer from "../Footer/Footer";
 import NewTaskForm from "../NewTaskForm/NewTaskForm";
 import TaskList from "../TaskList/TaskList";
-import React, { Component } from "react";
 import initialState from "../../initialState";
 
 class App extends Component {
@@ -14,8 +14,7 @@ class App extends Component {
   };
 
   onCompletedItem = (id) => {
-    this.setState(({tasks}) => {
-      return {
+    this.setState(({tasks}) => ({
         ...tasks,
         tasks: tasks.map((item) => {
           if (item.id === id) {
@@ -26,8 +25,7 @@ class App extends Component {
           }
           return item;
         }),
-      };
-    });
+      }));
   };
 
   onFilterItem = (items, filter) => {
@@ -53,12 +51,10 @@ class App extends Component {
   };
 
   onEditItem = (id) => {
-    this.setState(({tasks}) => {
-      return {
+    this.setState(({tasks}) => ({
         ...tasks,
         tasks: tasks.map((task) => (task.id === id ? { ...task, edit: !task.edit } : task)),
-      };
-    });
+      }));
   };
 
   onFilterChange = (filter) => {
@@ -66,12 +62,10 @@ class App extends Component {
   };
 
   onLabelChange = (id, label) => {
-    this.setState(({tasks}) => {
-      return {
+    this.setState(({tasks}) => ({
         ...tasks,
         tasks: tasks.map((task) => (task.id === id ? { ...task, label } : task))
-      };
-    });
+      }));
   };
 
   onAddItem = (label) => {
@@ -79,22 +73,19 @@ class App extends Component {
       label,
       completed: false,
       edit: false,
+      // eslint-disable-next-line no-plusplus
       id: this.maxId++,
       date: new Date(),
     };
-    this.setState(({ tasks }) => {
-      return {
+    this.setState(({ tasks }) => ({
         tasks: [...tasks, newItem],
-      };
-    });
+      }));
   };
 
   onClearCompleted = () => {
-    this.setState(({tasks}) => {
-      return {
+    this.setState(({tasks}) => ({
         tasks: tasks.filter(item => !item.completed)
-      };
-    });
+      }));
   };
 
   render() {

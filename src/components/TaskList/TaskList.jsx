@@ -5,9 +5,7 @@ import Task from "../Task/Task";
 
 import './taskList.css';
 
-const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChange}) => {
-
-  return (
+const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChange}) => (
       <ul className="todo-list">
         {items.map(({completed, edit, id, label,  date}) => {
 
@@ -31,10 +29,9 @@ const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChan
         })}
       </ul>
   );
-};
 
 TaskList.defaultProps = {
-  tasks: [],
+  items: [],
   onCompletedItem: () => {},
   onDeleteItem: () => {},
   onEditItem: () => {},
@@ -42,7 +39,7 @@ TaskList.defaultProps = {
 };
 
 TaskList.propTypes = {
-  tasks: PropTypes.arrayOf(PropTypes.object),
+  items: PropTypes.arrayOf(PropTypes.object),
   onCompletedItem: PropTypes.func,
   onDeleteItem: PropTypes.func,
   onEditItem: PropTypes.func,

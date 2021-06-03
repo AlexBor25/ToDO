@@ -20,7 +20,7 @@ export default class TasksFilter extends React.Component {
     
       return (
         <li key={name}>
-            <button onClick={() => onFilterChange(name)}
+            <button type='button' onClick={() => onFilterChange(name)}
                     className={isActive ? 'selected' : ''}>{label}</button>
         </li>
       );
