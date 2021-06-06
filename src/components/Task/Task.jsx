@@ -67,17 +67,13 @@ const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, 
         <label>
           <span className="title">{label}</span>
           <span className="description">
-                    {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <button type='button' className="icon icon-play" onClick={() => setPause(false)} />
-            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <button type='button' className="icon icon-pause" onClick={() => setPause(true)} />
             {format(timer * 1000, 'mm:ss')}
                 </span>
           <span className="description">{formateDate}</span>
         </label>
-        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
         <button type='button' onClick={() => onEditItem(id)} className="icon icon-edit"/>
-        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
         <button type='button' onClick={() => onDeleteItem(id)} className="icon icon-destroy"/>
       </div>
       <input type="text" className="edit"

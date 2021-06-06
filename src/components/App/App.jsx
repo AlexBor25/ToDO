@@ -1,22 +1,18 @@
 import "./App.css";
-import React, { Component } from "react";
+import React from "react";
 import Footer from "../Footer/Footer";
 import NewTaskForm from "../NewTaskForm/NewTaskForm";
 import TaskList from "../TaskList/TaskList";
 import initialState from "../../initialState";
 
-class App extends Component {
-  maxId = 10;
+const App = () =>  {
 
-  state = {
-    tasks: initialState.tasks,
-    filter: 'all',
-  };
+  const [state, setState] = React.useState(initialState);
 
-  onCompletedItem = (id) => {
-    this.setState(({tasks}) => ({
-        ...tasks,
-        tasks: tasks.map((item) => {
+  const onCompletedItem = (id) => {
+    setState((prev) => ({
+        ...prev,
+        tasks: prev.tasks.map((item) => {
           if (item.id === id) {
             return {
               ...item,
@@ -28,7 +24,7 @@ class App extends Component {
       }));
   };
 
-  onFilterItem = (items, filter) => {
+  const onFilterItem = (items, filter) => {
     switch(filter){
       case 'all':
         return items;
@@ -41,82 +37,84 @@ class App extends Component {
     }
   }
 
-  onDeleteItem = (id) => {
-    this.setState(({ tasks }) => {
-      const index = tasks.findIndex((el) => el.id === id);
+  const onDeleteItem = (id) => {
+    setState((prev) => {
+      const index = prev.tasks.findIndex((el) => el.id === id);
       return {
-        tasks: [...tasks.slice(0, index), ...tasks.slice(index + 1)],
+        tasks: [...prev.tasks.slice(0, index), ...prev.tasks.slice(index + 1)],
       };
     });
   };
 
-  onEditItem = (id) => {
-    this.setState(({tasks}) => ({
-        ...tasks,
-        tasks: tasks.map((task) => (task.id === id ? { ...task, edit: !task.edit } : task)),
+  const onEditItem = (id) => {
+    setState((prev) => ({
+        ...prev,
+        tasks: prev.tasks.map((task) => (task.id === id ? { ...task, edit: !task.edit } : task)),
       }));
   };
 
-  onFilterChange = (filter) => {
-    this.setState({filter});
+  const onFilterChange = (filter) => {
+    setState((prev) => ({
+      ...prev,
+      filter
+    }));
   };
 
-  onLabelChange = (id, label) => {
-    this.setState(({tasks}) => ({
-        ...tasks,
-        tasks: tasks.map((task) => (task.id === id ? { ...task, label } : task))
+  const onLabelChange = (id, label) => {
+    setState((prev) => ({
+        ...prev,
+        tasks: prev.tasks.map((task) => (task.id === id ? { ...task, label } : task))
       }));
   };
 
-  onAddItem = (label, min, sec) => {
+  const onAddItem = (label, min, sec) => {
     const newItem = {
       label,
       completed: false,
       edit: false,
-      // eslint-disable-next-line no-plusplus
-      id: this.maxId++,
+      id: new Date().getTime(),
       date: new Date(),
       time: Number(min) * 60 + Number(sec),
     };
-    this.setState(({ tasks }) => ({
-        tasks: [...tasks, newItem],
+    setState((prev) => ({
+      ...prev,
+      tasks: [...prev.tasks, newItem],
       }));
   };
 
-  onClearCompleted = () => {
-    this.setState(({tasks}) => ({
-        tasks: tasks.filter(item => !item.completed)
+  const onClearCompleted = () => {
+    setState((prev) => ({
+      ...prev,
+      tasks: prev.tasks.filter(item => !item.completed)
       }));
   };
 
-  render() {
-    const { tasks, filter } = this.state;
+  const { tasks, filter } = state;
 
-    const doneCount = tasks.filter((el) => el.completed).length;
+  const doneCount = tasks.filter((el) => el.completed).length;
 
-    const todoCount = tasks.length - doneCount;
+  const todoCount = tasks.length - doneCount;
 
-    const visibleItem = this.onFilterItem(tasks, filter);
+  const visibleItem = onFilterItem(tasks, filter);
 
-    return (
-      <section className="todoapp">
-        <NewTaskForm onAddItem={this.onAddItem} />
-        <section className="main">
-          <TaskList
-            items={visibleItem}
-            onCompletedItem={this.onCompletedItem}
-            onDeleteItem={this.onDeleteItem}
-            onLabelChange={this.onLabelChange}
-            onEditItem={this.onEditItem}
-          />
-          <Footer todoCount={todoCount}
-                  onFilterChange={this.onFilterChange}
-                  onClearCompleted={this.onClearCompleted}
-                  filter={filter} />
-        </section>
+  return (
+    <section className="todoapp">
+      <NewTaskForm onAddItem={onAddItem} />
+      <section className="main">
+        <TaskList
+          items={visibleItem}
+          onCompletedItem={onCompletedItem}
+          onDeleteItem={onDeleteItem}
+          onLabelChange={onLabelChange}
+          onEditItem={onEditItem}
+        />
+        <Footer todoCount={todoCount}
+                onFilterChange={onFilterChange}
+                onClearCompleted={onClearCompleted}
+                filter={filter} />
       </section>
-    );
-  }
-}
+    </section>
+  );
+};
 
 export default App;
