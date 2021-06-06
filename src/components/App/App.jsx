@@ -10,7 +10,7 @@ class App extends Component {
 
   state = {
     tasks: initialState.tasks,
-    filter: 'all'
+    filter: 'all',
   };
 
   onCompletedItem = (id) => {
@@ -68,7 +68,7 @@ class App extends Component {
       }));
   };
 
-  onAddItem = (label) => {
+  onAddItem = (label, min, sec) => {
     const newItem = {
       label,
       completed: false,
@@ -76,6 +76,7 @@ class App extends Component {
       // eslint-disable-next-line no-plusplus
       id: this.maxId++,
       date: new Date(),
+      time: Number(min) * 60 + Number(sec),
     };
     this.setState(({ tasks }) => ({
         tasks: [...tasks, newItem],

@@ -5,47 +5,74 @@ import './newTaskForm.css';
 
 export default class NewTaskForm extends React.Component {
 
-    state = {
-        label: ''
-    }
+  state = {
+    label: '',
+    min: '',
+    sec: ''
+  }
 
-    onLabelChange = (event) => {
-        this.setState({
-            label: event.target.value
-        });
-    };
+  onValueChange = (event) => {
+    this.setState((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value
+    }));
+  };
 
-    onSubmit = (event) => {
-        event.preventDefault();
-        // eslint-disable-next-line react/destructuring-assignment
-        this.props.onAddItem(this.state.label);
-        this.setState({
-            label: ''
-        });
-    };
+  onSubmit = (event) => {
+    event.preventDefault();
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.onAddItem(this.state.label, this.state.min, this.state.sec);
+    this.setState({
+      label: '',
+      min: '',
+      sec: ''
+    });
+  };
 
-    render() {
-        return (
-            <form className="header" onSubmit={this.onSubmit}>
-                <h1>Todos</h1>
-                <input
-                className="new-todo"
-                onChange={this.onLabelChange}
-                /* eslint-disable-next-line react/destructuring-assignment */
-                value={this.state.label}
-                placeholder="What needs to be done?"
-                /* eslint-disable-next-line jsx-a11y/no-autofocus */
-                autoFocus
-                />
-          </form>
-        );
-    };
+  render() {
+
+    const {label, min, sec} = this.state;
+
+    return (
+      <header className="header">
+        <h1>Todos</h1>
+        <form className="new-todo-form" onSubmit={this.onSubmit}>
+          <input
+            className="new-todo"
+            onChange={this.onValueChange}
+            value={label}
+            name="label"
+            placeholder="What needs to be done?"
+            /* eslint-disable-next-line jsx-a11y/no-autofocus */
+            autoFocus
+          />
+          <input className="new-todo-form__timer"
+                 type='number'
+                 min='0'
+                 max='59'
+                 value={min}
+                 onChange={this.onValueChange}
+                 name="min"
+                 placeholder="Min" />
+          <input className="new-todo-form__timer"
+                 type='number'
+                 min='0'
+                 max='59'
+                 value={sec}
+                 onChange={this.onValueChange}
+                 name="sec"
+                 placeholder="Sec" />
+          <button aria-label="submit" type="submit" />
+        </form>
+      </header>
+    );
+  };
 };
 
 NewTaskForm.defaultProps = {
-    onAddItem: () => {},
+  onAddItem: () => {},
 };
 
 NewTaskForm.propTypes = {
-    onAddItem: PropTypes.func
+  onAddItem: PropTypes.func
 };

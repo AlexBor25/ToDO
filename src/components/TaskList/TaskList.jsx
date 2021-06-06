@@ -7,7 +7,7 @@ import './taskList.css';
 
 const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChange}) => (
       <ul className="todo-list">
-        {items.map(({completed, edit, id, label,  date}) => {
+        {items.map(({completed, edit, id, label,  date, time}) => {
 
           let classNames = '';
 
@@ -22,6 +22,7 @@ const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChan
             onCompletedItem={onCompletedItem}
             id={id}
             date={date}
+            time={time}
             label={label}
             onDeleteItem={onDeleteItem}
             onLabelChange={onLabelChange}
