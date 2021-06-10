@@ -11,12 +11,8 @@ const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChan
 
           let classNames = '';
 
-          if(completed){
-            classNames += ' completed';
-          }
-          if(edit){
-            classNames += ' editing';
-          }
+          if (completed) classNames += ' completed';
+          if (edit) classNames += ' editing';
 
           return <li className={classNames} key={id}><Task
             onCompletedItem={onCompletedItem}
@@ -24,6 +20,7 @@ const TaskList = ({items, onCompletedItem, onDeleteItem, onEditItem, onLabelChan
             date={date}
             time={time}
             label={label}
+            completed={completed}
             onDeleteItem={onDeleteItem}
             onLabelChange={onLabelChange}
             onEditItem={onEditItem} /></li>

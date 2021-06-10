@@ -5,7 +5,7 @@ import { formatDistanceToNow, format } from 'date-fns';
 
 import './task.css';
 
-const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, onLabelChange, time, date}) => {
+const Task = React.memo(({label, completed, id, onCompletedItem, onDeleteItem, onEditItem, onLabelChange, time, date}) => {
 
   const [value, setValue] = React.useState(label);
   const [timer, setTimer] = React.useState(time);
@@ -21,11 +21,6 @@ const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, 
       setFormateDate(newFormateDate);
     }
   }, [date, formateDate]);
-
-  React.useEffect(() => {
-    const timerId = setInterval(refresh, 1000);
-    return () => clearInterval(timerId);
-  }, [refresh]);
 
   React.useEffect(() => {
     const timerId = setInterval(() => {
@@ -45,6 +40,11 @@ const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, 
     };
   }, [pause]);
 
+  React.useEffect(() => {
+    const timerId = setInterval(refresh, 1000);
+    return () => clearInterval(timerId);
+  }, [refresh]);
+
   const changeValue = (event) => {
     setValue(event.target.value);
   };
@@ -63,12 +63,12 @@ const Task = React.memo(({label, id, onCompletedItem, onDeleteItem, onEditItem, 
   return (
     <>
       <div className="view">
-        <input className="toggle" onClick={() => onCompletedItem(id)} type="checkbox" />
+        <input className="toggle" onChange={() => onCompletedItem(id)} type="checkbox" checked={completed} />
         <label>
           <span className="title">{label}</span>
           <span className="description">
-            <button type='button' className="icon icon-play" onClick={() => setPause(false)} />
-            <button type='button' className="icon icon-pause" onClick={() => setPause(true)} />
+            { pause ? <button type='button' className="icon icon-play" onClick={() => setPause(false)} />
+                    : <button type='button' className="icon icon-pause" onClick={() => setPause(true)} /> }
             {format(timer * 1000, 'mm:ss')}
                 </span>
           <span className="description">{formateDate}</span>
@@ -93,12 +93,14 @@ Task.defaultProps = {
   onEditItem: () => {},
   onLabelChange: () => {},
   date: new Date(),
-  time: 0
+  time: 0,
+  completed: false
 };
 
 Task.propTypes = {
   label: PropTypes.string,
   id: PropTypes.number,
+  completed: PropTypes.bool,
   time: PropTypes.number,
   onCompletedItem: PropTypes.func,
   onDeleteItem: PropTypes.func,

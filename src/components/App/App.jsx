@@ -3,7 +3,8 @@ import React from "react";
 import Footer from "../Footer/Footer";
 import NewTaskForm from "../NewTaskForm/NewTaskForm";
 import TaskList from "../TaskList/TaskList";
-import initialState from "../../initialState";
+import initialState from "../../constants/initialState";
+import onFilterItem from "../../utils/filtration";
 
 const App = () =>  {
 
@@ -23,19 +24,6 @@ const App = () =>  {
         }),
       }));
   };
-
-  const onFilterItem = (items, filter) => {
-    switch(filter){
-      case 'all':
-        return items;
-      case 'active': 
-        return items.filter(item => !item.completed);
-      case 'completed': 
-        return items.filter(item => item.completed);
-      default: 
-        return items;
-    }
-  }
 
   const onDeleteItem = (id) => {
     setState((prev) => {
